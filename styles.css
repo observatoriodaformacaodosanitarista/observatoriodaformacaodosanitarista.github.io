@@ -84,11 +84,7 @@ h2 {
 
 
 /* =========================================================
-   NAVBAR
-   ========================================================= */
-
-/* =========================================================
-   NAVBAR
+   NAVBAR & BUSCA
    ========================================================= */
 
 .navbar {
@@ -149,6 +145,32 @@ h2 {
 }
 
 
+/* TEXTO "BUSCA" AO LADO DA LUPA DA NAVBAR */
+
+#quarto-search,
+.quarto-search-button,
+.quarto-navigation-tool,
+.aa-DetachedSearchButton {
+  display: inline-flex !important;
+  align-items: center !important;
+  color: white !important;
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+#quarto-search::after,
+.quarto-search-button::after,
+#quarto-search-by-title::after,
+.aa-DetachedSearchButton-placeholder::after {
+  content: "Busca" !important;
+  color: white !important;
+  font-size: 0.92rem !important;
+  font-weight: 500 !important;
+  margin-left: 6px !important;
+  display: inline-block !important;
+}
+
+
 /* =========================================================
    BOTÃO "PAINEL INTERATIVO"
    ========================================================= */
@@ -175,32 +197,25 @@ h2 {
   color: white !important;
 }
 
-/* =========================================================
-   HERO / HEADER
-   ========================================================= */
 
 /* =========================================================
-   HEADER
+   HERO / HEADER
    ========================================================= */
 
 .quarto-title-banner {
   position: relative;
 
-  /* ocupa toda a largura da janela */
   width: 100vw;
   max-width: none;
 
-  /* tira o banner do container central do Quarto */
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
 
-  /* você ajusta depois */
   height: 430px;
   min-height: 430px;
 
   overflow: hidden;
 
-  /* imagem */
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -211,11 +226,6 @@ h2 {
 
   padding: 0;
 }
-
-/*
-   Camada escura sobre a imagem.
-   Você pode aumentar/diminuir a opacidade.
-*/
 
 .quarto-title-banner::before {
 
@@ -235,11 +245,6 @@ h2 {
   z-index: 1;
 }
 
-
-/*
-   Container do título
-*/
-
 .quarto-title-banner .quarto-title {
 
   position: relative;
@@ -257,11 +262,6 @@ h2 {
 
   text-align: left;
 }
-
-
-/*
-   Título principal
-*/
 
 .quarto-title-banner h1.title {
   color: white !important;
@@ -295,7 +295,6 @@ main.content {
   background: #f2f4f5;
 
   color: #172638;
-  alpha: 10%;
 }
 
 body {
@@ -304,8 +303,8 @@ body {
     #ffffff 0%,
     #7dc3bf 100%
   );
-  /*color: white;*/
 }
+
 
 /* =========================================================
    CARDS DE ACESSO RÁPIDO
@@ -323,7 +322,6 @@ body {
   margin:
     1rem 0 3rem;
 }
-
 
 .quick-card {
 
@@ -348,7 +346,6 @@ body {
     box-shadow 0.2s ease;
 }
 
-
 .quick-card:hover {
 
   transform:
@@ -359,8 +356,7 @@ body {
     rgba(0, 35, 70, 0.12);
 }
 
-
-.quick-card h3 {
+.quick-card h2 {
 
   margin-top: 0;
 
@@ -370,7 +366,6 @@ body {
   font-size:
     1.25rem;
 }
-
 
 .quick-card p {
 
@@ -383,7 +378,7 @@ body {
 
 
 /* =========================================================
-   INDICADORES
+   INDICADORES (FIGURA WEB2.JPG - CENTRALIZAÇÃO TOTAL)
    ========================================================= */
 
 .indicator-grid {
@@ -399,6 +394,10 @@ body {
     1.5rem 0 3rem;
 }
 
+.indicator-card,
+.indicator-card * {
+  text-align: center !important;
+}
 
 .indicator-card {
 
@@ -414,40 +413,66 @@ body {
   padding:
     1.5rem;
 
-  text-align:
-    center;
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center !important;
+
+  justify-content:
+    center !important;
 
   box-shadow:
     0 4px 15px
     rgba(0, 35, 70, 0.06);
 }
 
+.indicator-card h2,
+.indicator-card h3,
+.indicator-card .anchored {
 
-.indicator-card h2 {
+  margin-top: 0 !important;
 
-  margin-top: 0;
+  margin-bottom: 0.5rem !important;
 
-  text-align: center;
+  text-align:
+    center !important;
 
   color:
-    var(--text-muted) !important;
+    var(--text) !important;
 
   font-size:
-    1rem;
+    1.25rem !important;
+
+  width:
+    100% !important;
+
+  border: none !important;
 }
 
+.indicator-card strong,
+.indicator-card p {
 
-.indicator-card strong {
+  display: block !important;
 
-  display: block;
+  margin-top: 0.5rem !important;
 
-  margin-top: 0.5rem;
+  margin-bottom: 0 !important;
+
+  text-align:
+    center !important;
 
   color:
-    var(--teal-dark);
+    var(--teal-dark) !important;
 
   font-size:
-    1.5rem;
+    1.5rem !important;
+
+  width:
+    100% !important;
 }
 
 
@@ -477,13 +502,11 @@ body {
     rgba(0, 30, 60, 0.07);
 }
 
-
 #dashboard {
 
   scroll-margin-top:
     100px;
 }
-
 
 #dashboard iframe {
 
@@ -532,7 +555,6 @@ body {
     2rem 0;
 }
 
-
 .manual-card img {
 
   display:
@@ -575,7 +597,6 @@ body {
     hidden;
 }
 
-
 .table thead {
 
   background:
@@ -585,18 +606,35 @@ body {
     white;
 }
 
-
 .table thead th {
 
   color:
     white !important;
 }
 
-
 .table tbody tr:hover {
 
   background:
     var(--teal-light);
+}
+
+
+/* =========================================================
+   QUEM SOMOS
+   ========================================================= */
+
+.quem-somos {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+.quem-somos .foto {
+  flex: 0 0 20%;
+}
+
+.quem-somos .biografia {
+  flex: 1;
 }
 
 
@@ -617,7 +655,6 @@ footer.footer {
     4rem;
 }
 
-
 .nav-footer {
 
   max-width:
@@ -636,7 +673,6 @@ footer.footer {
     var(--navy) !important;
 }
 
-
 .nav-footer-left,
 .nav-footer-center,
 .nav-footer-right {
@@ -645,7 +681,6 @@ footer.footer {
     #dbe7ef !important;
 }
 
-
 footer a,
 footer a:link,
 footer a:visited {
@@ -653,7 +688,6 @@ footer a:visited {
   color:
     #9de5dd !important;
 }
-
 
 footer a:hover {
 
@@ -682,7 +716,6 @@ footer a:hover {
 
 }
 
-
 @media (max-width: 768px) {
 
   .navbar {
@@ -691,13 +724,11 @@ footer a:hover {
       60px;
   }
 
-
   .navbar-brand img {
 
     height:
       42px !important;
   }
-
 
   .quarto-title-banner {
 
@@ -708,13 +739,11 @@ footer a:hover {
       350px;
   }
 
-
   .quarto-title-banner .quarto-title {
 
     padding:
       1.5rem;
   }
-
 
   .quarto-title-banner h1.title {
 
@@ -722,13 +751,11 @@ footer a:hover {
       2.4rem;
   }
 
-
   .quarto-title-banner .subtitle {
 
     font-size:
       1rem;
   }
-
 
   main.content {
 
@@ -736,13 +763,11 @@ footer a:hover {
       2rem 1rem;
   }
 
-
   .quick-grid {
 
     grid-template-columns:
       1fr;
   }
-
 
   .indicator-grid {
 
@@ -750,25 +775,10 @@ footer a:hover {
       1fr;
   }
 
-
   #dashboard iframe {
 
     height:
       650px;
   }
 
-}
-
-.quem-somos {
-  display: flex;
-  align-items: flex-start;
-  gap: 40px;
-}
-
-.quem-somos .foto {
-  flex: 0 0 20%;
-}
-
-.quem-somos .biografia {
-  flex: 1;
 }
