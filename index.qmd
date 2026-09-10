@@ -1,0 +1,326 @@
+---
+title: "Observatório da Formação <br> do Sanitarista no Brasil"
+
+jupyter: python3
+
+#toc: true
+page-layout: full
+title-block-banner: "#ffffff"
+
+include-in-header:
+  text: |
+    <style>
+      #paineis-slider {
+        position: relative;
+        width: 100%;
+        height: 210px; /* Altura do container do carrossel */
+        overflow: hidden;
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.50);
+      }
+      #paineis-slider img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      #toc-title{ display:none; }
+
+      /* one step up from the theme's .875rem */
+      #TOC > ul{ font-size:0.95rem; }
+      #TOC > ul li a.nav-link{ line-height:1.25rem; }
+
+      #TOC > ul > li > a.nav-link{
+        font-weight:700;
+        color:#1a3a5c !important;
+      }
+
+      #TOC ul ul > li > a.nav-link{
+        font-weight:400;
+        padding-left:1rem;
+        color: black !important;
+      }
+
+      /* active section: the same blue as the "###" items, including on the
+         vertical bar (border-left), which the theme would leave green. */
+      #TOC a.nav-link.active{
+        color:#2B6CB0 !important;
+        border-left-color:#2B6CB0 !important;
+      }
+
+      /* an even lighter hover; the second selector is needed to beat the
+         specificity of the .active rule above when the active item is pointed
+         at. */
+      #TOC a.nav-link:hover,
+      #TOC a.nav-link.active:hover{ color:#4a90d9 !important; }
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+
+        // Banner principal
+        const banner = document.querySelector(".quarto-title-banner");
+        if (banner) {
+          banner.style.backgroundImage = "url('images/header1.png')";
+          banner.style.backgroundSize = "cover";
+          banner.style.backgroundPosition = "center 30%";
+        }
+
+        // Obtém a lista de imagens injetada automaticamente pelo Python
+        const sources = window.paineisImages || [];
+
+        function startSlider(elementId, intervalMs) {
+          const slider = document.getElementById(elementId);
+          if (!slider || !sources.length) return;
+
+          Promise.all(sources.map(src => new Promise(resolve => {
+            const probe = new Image();
+            probe.onload  = () => resolve(src);
+            probe.onerror = () => resolve(null);
+            probe.src = src;
+          }))).then(results => {
+            const images = results.filter(Boolean);
+            if (!images.length) { slider.style.display = "none"; return; }
+
+            const slides = images.map((src, i) => {
+              const img = document.createElement("img");
+              img.src = src;
+              img.alt = "Painel";
+              img.style.position   = "absolute";
+              img.style.inset      = "0";
+              img.style.opacity    = i === 0 ? "1" : "0";
+              img.style.transition = "opacity .8s ease-in-out";
+              return img;
+            });
+            slider.replaceChildren(...slides);
+
+            if (slides.length === 1) return;
+
+            let i = 0;
+            setInterval(() => {
+              const next = (i + 1) % slides.length;
+              slides[i].style.opacity    = "0";
+              slides[next].style.opacity = "1";
+              i = next;
+            }, intervalMs);
+          });
+        }
+
+        startSlider("paineis-slider", 3500);
+
+      });
+    </script>
+
+---
+
+```{python}
+#| echo: false
+#| output: asis
+
+import os
+import json
+
+# Mapeia automaticamente todas as imagens da pasta images/paineis
+folder = "images/paineis"
+valid_exts = (".png", ".jpg", ".jpeg", ".webp")
+
+paineis_images = []
+if os.path.exists(folder):
+    files = sorted(os.listdir(folder))
+    paineis_images = [
+        f"{folder}/{f}" for f in files if f.lower().endswith(valid_exts)
+    ]
+
+# Injeta o array de caminhos no JavaScript da página
+print(f"<script>window.paineisImages = {json.dumps(paineis_images)};</script>")
+```
+
+::: {.columns}
+
+::: {.column width="55%"}
+
+# Início {#inicio}
+
+::: {.hero-buttons}
+
+Conheça os diferentes caminhos formativos, explore a distribuição da oferta de formação no país e acesse materiais sobre a formação e a regulamentação da profissão de sanitarista.
+
+:::
+
+
+:::
+
+::: {.column width="45%"}
+
+<div id="paineis-slider"></div>
+
+:::
+
+:::
+
+
+## Apresentação {#sobre}
+
+O Observatório da Formação do Sanitarista no Brasil nasce como um espaço para reunir e disponibilizar informações sobre os diferentes caminhos formativos disponíveis no sistema de educação superior brasileiro para a formação da força de trabalho do sanitarista.
+
+O Observatório é um produto da pesquisa de doutorado desenvolvida no Programa de Pós-Graduação em Saúde Coletiva da Universidade Federal do Espírito Santo (UFES). 
+
+Como parte desse espaço, o Painel da Formação do Sanitarista no Brasil reúne informações qualificadas, provenientes de diferentes bases de dados governamentais oficiais, sobre quatro segmentos formativos: graduação; pós-graduação lato sensu; residências médicas, uniprofissionais e multiprofissionais; e pós-graduação stricto sensu.
+
+O Observatório também disponibiliza o manual técnico do Painel, uma biblioteca de materiais sobre a história, a formação e a avaliação dos cursos e programas, além de legislações relacionadas à regulamentação da profissão.
+
+Esperamos que este espaço constitua uma ferramenta de apoio para estudantes, pesquisadores, gestores, instituições formadoras e demais interessados na compreensão da formação do sanitarista e em sua contribuição para o fortalecimento do SUS.
+
+
+
+## Objetivo {#objetivo}
+
+O Observatório da Formação do Sanitarista no Brasil tem como objetivo reunir, organizar e disponibilizar informações qualificadas sobre a formação do sanitarista, contribuindo para a compreensão dos diferentes caminhos formativos, das desigualdades territoriais e dos processos de regulamentação e profissionalização da categoria.
+
+
+## Quem pode ser sanitarista?
+
+De acordo com a Lei nº 14.725/2023, podem habilitar-se ao exercício da profissão de sanitarista aqueles que atendam aos requisitos previstos na legislação, incluindo:
+
+- diplomados em curso de graduação reconhecido pelo Ministério da Educação e classificado na área de Saúde Coletiva ou Saúde Pública;
+- diplomados em curso de mestrado ou doutorado na área de Saúde Coletiva ou Saúde Pública, conforme os requisitos legais;
+- diplomados em curso de graduação na área de Saúde Coletiva ou Saúde Pública realizado no exterior, com diploma revalidado no Brasil;
+- portadores de certificado de conclusão de Residência Médica ou Residência Multiprofissional em Saúde na área de Saúde Coletiva ou Saúde Pública;
+- portadores de certificado de especialização lato sensu na área de Saúde Coletiva ou Saúde Pública, observados os requisitos legais;
+- profissionais com formação de nível superior que comprovem, nos termos da lei, o exercício de atividade profissional correlata por pelo menos cinco anos até a data de publicação da Lei.
+
+Consulte a legislação vigente para conhecer os requisitos completos.
+
+O exercício da profissão requer registro profissional no órgão competente do SUS. O Decreto nº 12.921/2026 regulamenta os procedimentos e documentos necessários para o registro profissional. O registro profissional de sanitarista é gratuito e deve ser solicitado de forma totalmente digital pelo SIRP-MS (Sistema de Registro Profissional) do Ministério da Saúde pelo site [https://degerts.unasus.gov.br/sirp-ms](https://degerts.unasus.gov.br/sirp-ms) 
+
+
+# O Observatório em números {#indicadores}
+
+Os indicadores apresentados neste painel permitem explorar diferentes
+dimensões da formação do sanitarista no Brasil.
+
+::: {.indicator-grid}
+
+::: {.indicator-card}
+
+<p style="color: #172638 !important; font-weight: bold !important; font-size: 20px !important;">Entre cursos e programas</p>
+
+**1.335**
+
+:::
+
+::: {.indicator-card}
+<!--## Instituições-->
+<p style="color: #172638 !important; font-weight: bold !important; font-size: 20px !important;">Instituições</p>
+
+**Mais de 404**
+
+:::
+
+::: {.indicator-card}
+<!--## Estados-->
+<p style="color: #172638 !important; font-weight: bold !important; font-size: 20px !important;">Estados</p>
+
+**26 + DF**
+
+:::
+
+::: {.indicator-card}
+<!--## Vagas entre os segmentos formativos-->
+<p style="color: #172638 !important; font-weight: bold !important; font-size: 20px !important;">Vagas entre os segmentos formativos</p>
+
+**150.000**
+
+:::
+
+:::
+
+::: {.dashboard-section}
+
+## Explorar os dados
+
+O painel interativo reúne as principais informações e indicadores da formação do sanitarista no Brasil. Os dados são apresentados de distintas maneiras para cada segmento formativo.
+
+:::
+
+# Painel da Formação do Sanitarista no Brasil {#dashboard}
+
+## Explore os dados
+
+O painel interativo reúne as principais visualizações e indicadores da formação do sanitarista no Brasil.
+
+<iframe
+  src="https://app.powerbi.com/view?r=eyJrIjoiZjU5NjRhYjgtZTk3Ni00OTQ0LWI4YjQtYTM5NTEzZjM5ZTBlIiwidCI6IjI4NTJmYzhhLWViNWUtNDk1My05ODUxLWE1YTVkNDkxNWRiOSJ9"
+  width="100%"
+  height="700"
+  frameborder="0"
+  marginheight="0"
+  marginwidth="0">
+</iframe>
+
+[Abrir no app.powerbi.com/ →](https://app.powerbi.com/view?r=eyJrIjoiZjU5NjRhYjgtZTk3Ni00OTQ0LWI4YjQtYTM5NTEzZjM5ZTBlIiwidCI6IjI4NTJmYzhhLWViNWUtNDk1My05ODUxLWE1YTVkNDkxNWRiOSJ9)
+
+# Manual Técnico
+
+O manual do painel apresenta informações sobre sua utilização e instruções da arquitetura de construção do painel. 
+
+::: {.manual-card}
+
+![Manual do painel](images/capa_manual.png)
+
+[Consultar o manual →](https://drive.google.com/drive/folders/1pQQQD2-ZwpYP7rC8IGjrHV_4fCZacEmj)
+
+:::
+
+## Fontes de dados
+
+- [e-MEC](https://emec.mec.gov.br/emec/nova) 
+- [SISCNRM - via Painel da Educação Superior](https://app.powerbi.com/view?r=eyJrIjoiM2EwMjdhZGMtMTA2MC00ZWRiLWIwYzEtZjBkNmRlODM1NzZiIiwidCI6ImI4YzI1OTMyLTVlNzYtNGIyYi05YzUzLWQ0MTc0NWU5YzkyZCJ9)
+- [SINAR - via Painel da Educação Superior](https://app.powerbi.com/view?r=eyJrIjoiNzg3ZWUzMDQtMmMxZS00ODRhLWExNjgtOTgwOTdkYzhlN2M4IiwidCI6ImI4YzI1OTMyLTVlNzYtNGIyYi05YzUzLWQ0MTc0NWU5YzkyZCJ9)
+- [Plataforma Sucupira](https://sucupira.capes.gov.br/observatorio/programa?page=0&size=20&grande-area-conhecimento=4&area-avaliacao=22) 
+
+## Biblioteca {#biblioteca}
+
+Acesse materiais sobre história, formação, avaliação e regulamentação da profissão de sanitarista.
+
+[Consultar a Biblioteca →](https://drive.google.com/drive/folders/1kVZeDNzOoANZLjGV5ImRXDo_r7rluW9P)
+
+## Atualização
+
+**Última atualização:** 09/09/2026
+
+# Contato
+
+Para dúvidas, sugestões e informações sobre o Observatório e o Painel da Formação do Sanitarista no Brasil envie para o e-mail: **paineldaformacaodosanitarista@gmail.com**
+
+# Quem Somos {#quem-somos}
+
+::: {.quem-somos}
+
+::: {.foto}
+![](images/pbdsm.jpg){fig-alt="Paula"}
+:::
+
+::: {.biografia}
+### [Ma. Paula Beatriz de Souza Mendonça](http://lattes.cnpq.br/2334430734926679)
+
+Doutoranda em Saúde Coletiva pela Universidade Federal do Espírito Santo (UFES), pesquisadora na área de formação e profissionalização do sanitarista. É responsável pela criação e desenvolvimento do Observatório da Formação do Sanitarista no Brasil, produto de sua pesquisa de doutorado.
+
+:::
+
+:::
+
+::: {.quem-somos}
+
+::: {.foto}
+![](images/rqb.jpg){fig-alt="Raquel"}
+:::
+
+:::{.biografia}
+### [Profa. Dra. Raquel Baroni de Carvalho](http://lattes.cnpq.br/5266889552348216)
+
+Professora Titular do Dept. de Saúde Coletiva da Universidade Federal (UFES) e dos Programas de Pós-Graduação em Ciências Odontológicas e Saúde Coletiva, orientadora da pesquisa de doutorado que deu origem ao Observatório.
+<!-- do Dept. de Medicina Social da Universidade Federal do Espírito Santo (UFES) e -->
+
+:::
+
+:::
