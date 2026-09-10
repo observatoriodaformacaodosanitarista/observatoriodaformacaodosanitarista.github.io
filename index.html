@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Observatório da Formação do   Sanitarista no Brasil – Observatório da Formação do Sanitarista</title>
+<title>Observatório da Formação   do Sanitarista no Brasil – Observatório da Formação do Sanitarista</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -79,20 +79,103 @@ ul.task-list li input[type="checkbox"] {
         background: #ffffff;
       }
 </style>
+<style>
+  #paineis-slider {
+    position: relative;
+    width: 100%;
+    height: 280px; /* Altura do container do carrossel */
+    overflow: hidden;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.50);
+  }
+  #paineis-slider img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  #toc-title{ display:none; }
+
+  /* one step up from the theme's .875rem */
+  #TOC > ul{ font-size:0.95rem; }
+  #TOC > ul li a.nav-link{ line-height:1.25rem; }
+
+  #TOC > ul > li > a.nav-link{
+    font-weight:700;
+    color:#1a3a5c !important;
+  }
+
+  #TOC ul ul > li > a.nav-link{
+    font-weight:400;
+    padding-left:1rem;
+    color: black !important;
+  }
+
+  /* active section: the same blue as the "###" items, including on the
+     vertical bar (border-left), which the theme would leave green. */
+  #TOC a.nav-link.active{
+    color:#2B6CB0 !important;
+    border-left-color:#2B6CB0 !important;
+  }
+
+  /* an even lighter hover; the second selector is needed to beat the
+     specificity of the .active rule above when the active item is pointed
+     at. */
+  #TOC a.nav-link:hover,
+  #TOC a.nav-link.active:hover{ color:#4a90d9 !important; }
+</style>
+
 <script>
   document.addEventListener("DOMContentLoaded", () => {
 
-    const banner =
-      document.querySelector(".quarto-title-banner");
+    // Banner principal
+    const banner = document.querySelector(".quarto-title-banner");
+    if (banner) {
+      banner.style.backgroundImage = "url('images/header1.png')";
+      banner.style.backgroundSize = "cover";
+      banner.style.backgroundPosition = "center 30%";
+    }
 
-    if (!banner) return;
+    // Obtém a lista de imagens injetada automaticamente pelo Python
+    const sources = window.paineisImages || [];
 
-    banner.style.backgroundImage =
-      "url('images/header1.png')";
+    function startSlider(elementId, intervalMs) {
+      const slider = document.getElementById(elementId);
+      if (!slider || !sources.length) return;
 
-    banner.style.backgroundSize = "cover";
+      Promise.all(sources.map(src => new Promise(resolve => {
+        const probe = new Image();
+        probe.onload  = () => resolve(src);
+        probe.onerror = () => resolve(null);
+        probe.src = src;
+      }))).then(results => {
+        const images = results.filter(Boolean);
+        if (!images.length) { slider.style.display = "none"; return; }
 
-    banner.style.backgroundPosition = "center 30%";
+        const slides = images.map((src, i) => {
+          const img = document.createElement("img");
+          img.src = src;
+          img.alt = "Painel";
+          img.style.position   = "absolute";
+          img.style.inset      = "0";
+          img.style.opacity    = i === 0 ? "1" : "0";
+          img.style.transition = "opacity .8s ease-in-out";
+          return img;
+        });
+        slider.replaceChildren(...slides);
+
+        if (slides.length === 1) return;
+
+        let i = 0;
+        setInterval(() => {
+          const next = (i + 1) % slides.length;
+          slides[i].style.opacity    = "0";
+          slides[next].style.opacity = "1";
+          i = next;
+        }, intervalMs);
+      });
+    }
+
+    startSlider("paineis-slider", 3500);
 
   });
 </script>
@@ -148,12 +231,6 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Quem Somos</span></a>
   </li>  
 </ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="./#dashboard"> 
-<span class="menu-text">Painel Interativo ↗</span></a>
-  </li>  
-</ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
@@ -163,13 +240,13 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page">
-      <h1 class="title">Observatório da Formação do <br> Sanitarista no Brasil</h1>
+    <div class="quarto-title column-page-left">
+      <h1 class="title">Observatório da Formação <br> do Sanitarista no Brasil</h1>
                       </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page">
+  <div class="quarto-title-meta column-page-left">
 
       
     
@@ -180,14 +257,43 @@ ul.task-list li input[type="checkbox"] {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#inicio" id="toc-inicio" class="nav-link active" data-scroll-target="#inicio">Início</a>
+  <ul class="collapse">
+  <li><a href="#sobre" id="toc-sobre" class="nav-link" data-scroll-target="#sobre">Apresentação</a></li>
+  <li><a href="#quem-pode-ser-sanitarista" id="toc-quem-pode-ser-sanitarista" class="nav-link" data-scroll-target="#quem-pode-ser-sanitarista">Quem pode ser sanitarista?</a></li>
+  </ul></li>
+  <li><a href="#indicadores" id="toc-indicadores" class="nav-link" data-scroll-target="#indicadores">O Observatório em números</a>
+  <ul class="collapse">
+  <li><a href="#explorar-os-dados" id="toc-explorar-os-dados" class="nav-link" data-scroll-target="#explorar-os-dados">Explorar os dados</a></li>
+  </ul></li>
+  <li><a href="#dashboard" id="toc-dashboard" class="nav-link" data-scroll-target="#dashboard">Painel da Formação do Sanitarista no Brasil</a>
+  <ul class="collapse">
+  <li><a href="#explore-os-dados" id="toc-explore-os-dados" class="nav-link" data-scroll-target="#explore-os-dados">Explore os dados</a></li>
+  </ul></li>
+  <li><a href="#manual-técnico" id="toc-manual-técnico" class="nav-link" data-scroll-target="#manual-técnico">Manual Técnico</a>
+  <ul class="collapse">
+  <li><a href="#fontes-de-dados" id="toc-fontes-de-dados" class="nav-link" data-scroll-target="#fontes-de-dados">Fontes de dados</a></li>
+  <li><a href="#biblioteca" id="toc-biblioteca" class="nav-link" data-scroll-target="#biblioteca">Biblioteca</a></li>
+  <li><a href="#atualização" id="toc-atualização" class="nav-link" data-scroll-target="#atualização">Atualização</a></li>
+  </ul></li>
+  <li><a href="#contato" id="toc-contato" class="nav-link" data-scroll-target="#contato">Contato</a></li>
+  <li><a href="#quem-somos" id="toc-quem-somos" class="nav-link" data-scroll-target="#quem-somos">Quem Somos</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
 
 
 
 
+<script>window.paineisImages = ["images/paineis/image1.png", "images/paineis/image14.png", "images/paineis/image16.png", "images/paineis/image2.png", "images/paineis/image20.png", "images/paineis/image5.png", "images/paineis/image8.png"];</script>
 <section id="inicio" class="level1">
 <h1>Início</h1>
 <div class="hero-buttons">
@@ -201,10 +307,18 @@ ul.task-list li input[type="checkbox"] {
 <p>O Observatório também disponibiliza o manual técnico do Painel, uma biblioteca de materiais sobre a história, a formação e a avaliação dos cursos e programas, além de legislações relacionadas à regulamentação da profissão.</p>
 <p>Esperamos que este espaço constitua uma ferramenta de apoio para estudantes, pesquisadores, gestores, instituições formadoras e demais interessados na compreensão da formação do sanitarista e em sua contribuição para o fortalecimento do SUS.</p>
 </section>
+<div class="columns">
+<div class="column" style="width:55%;">
 <section id="objetivo" class="level2">
 <h2 class="anchored" data-anchor-id="objetivo">Objetivo</h2>
 <p>O Observatório da Formação do Sanitarista no Brasil tem como objetivo reunir, organizar e disponibilizar informações qualificadas sobre a formação do sanitarista, contribuindo para a compreensão dos diferentes caminhos formativos, das desigualdades territoriais e dos processos de regulamentação e profissionalização da categoria.</p>
 </section>
+</div><div class="column" style="width:45%;">
+<div id="paineis-slider">
+
+</div>
+</div>
+</div>
 <section id="quem-pode-ser-sanitarista" class="level2">
 <h2 class="anchored" data-anchor-id="quem-pode-ser-sanitarista">Quem pode ser sanitarista?</h2>
 <p>De acordo com a Lei nº 14.725/2023, podem habilitar-se ao exercício da profissão de sanitarista aqueles que atendam aos requisitos previstos na legislação, incluindo:</p>
@@ -224,22 +338,33 @@ ul.task-list li input[type="checkbox"] {
 <h1>O Observatório em números</h1>
 <p>Os indicadores apresentados neste painel permitem explorar diferentes dimensões da formação do sanitarista no Brasil.</p>
 <div class="indicator-grid">
-<section id="entre-cursos-e-programas" class="level2 indicator-card">
-<h2 class="anchored" data-anchor-id="entre-cursos-e-programas">Entre cursos e programas</h2>
+<div class="indicator-card">
+<p style="color: #172638 !important; font-weight: bold !important; font-size: 20px !important;">
+Entre cursos e programas
+</p>
 <p><strong>1.335</strong></p>
-</section>
-<section id="instituições" class="level2 indicator-card">
-<h2 class="anchored" data-anchor-id="instituições">Instituições</h2>
+</div>
+<div class="indicator-card">
+<!--## Instituições-->
+<p style="color: #172638 !important; font-weight: bold !important; font-size: 20px !important;">
+Instituições
+</p>
 <p><strong>Mais de 404</strong></p>
-</section>
-<section id="estados" class="level2 indicator-card">
-<h2 class="anchored" data-anchor-id="estados">Estados</h2>
+</div>
+<div class="indicator-card">
+<!--## Estados-->
+<p style="color: #172638 !important; font-weight: bold !important; font-size: 20px !important;">
+Estados
+</p>
 <p><strong>26 + DF</strong></p>
-</section>
-<section id="vagas-entre-os-segmentos-formativos" class="level2 indicator-card">
-<h2 class="anchored" data-anchor-id="vagas-entre-os-segmentos-formativos">Vagas entre os segmentos formativos</h2>
+</div>
+<div class="indicator-card">
+<!--## Vagas entre os segmentos formativos-->
+<p style="color: #172638 !important; font-weight: bold !important; font-size: 20px !important;">
+Vagas entre os segmentos formativos
+</p>
 <p><strong>150.000</strong></p>
-</section>
+</div>
 </div>
 <section id="explorar-os-dados" class="level2 dashboard-section">
 <h2 class="anchored" data-anchor-id="explorar-os-dados">Explorar os dados</h2>
@@ -284,12 +409,12 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="atualização" class="level2">
 <h2 class="anchored" data-anchor-id="atualização">Atualização</h2>
-<p><strong>Última atualização:</strong> 18/08/2026</p>
+<p><strong>Última atualização:</strong> 09/09/2026</p>
 </section>
 </section>
 <section id="contato" class="level1">
 <h1>Contato</h1>
-<p>Para dúvidas, sugestões e informações sobre o Observatório e o Painel da Formação do Sanitarista no Brasil envie para o e-mail:paineldaformacaodosanitarista@gmail.com</p>
+<p>Para dúvidas, sugestões e informações sobre o Observatório e o Painel da Formação do Sanitarista no Brasil envie para o e-mail: <strong>paineldaformacaodosanitarista@gmail.com</strong></p>
 </section>
 <section id="quem-somos" class="level1">
 <h1>Quem Somos</h1>
@@ -298,7 +423,7 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="images/pbdsm.jpg" class="img-fluid" alt="Paula"></p>
 </div>
 <section id="ma.-paula-beatriz-de-souza-mendonça" class="level3 biografia">
-<h3 class="anchored" data-anchor-id="ma.-paula-beatriz-de-souza-mendonça">Ma. Paula Beatriz de Souza Mendonça</h3>
+<h3 class="anchored" data-anchor-id="ma.-paula-beatriz-de-souza-mendonça"><a href="http://lattes.cnpq.br/2334430734926679">Ma. Paula Beatriz de Souza Mendonça</a></h3>
 <p>Doutoranda em Saúde Coletiva pela Universidade Federal do Espírito Santo (UFES), pesquisadora na área de formação e profissionalização do sanitarista. É responsável pela criação e desenvolvimento do Observatório da Formação do Sanitarista no Brasil, produto de sua pesquisa de doutorado.</p>
 </section>
 </div>
@@ -307,8 +432,8 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="images/rqb.jpg" class="img-fluid" alt="Raquel"></p>
 </div>
 <section id="profa.-dra.-raquel-baroni-de-carvalho" class="level3 biografia">
-<h3 class="anchored" data-anchor-id="profa.-dra.-raquel-baroni-de-carvalho">Profa. Dra. Raquel Baroni de Carvalho</h3>
-<p>Professora Titular do Dept. de Medicina Social da Universidade Federal do Espírito Santo (UFES) e dos Programas de Pós-Graduação em Ciências Odontológicas e Saúde Coletiva, orientadora da pesquisa de doutorado que deu origem ao Observatório.</p>
+<h3 class="anchored" data-anchor-id="profa.-dra.-raquel-baroni-de-carvalho"><a href="http://lattes.cnpq.br/5266889552348216">Profa. Dra. Raquel Baroni de Carvalho</a></h3>
+<p>Professora Titular do Dept. de Saúde Coletiva da Universidade Federal (UFES) e dos Programas de Pós-Graduação em Ciências Odontológicas e Saúde Coletiva, orientadora da pesquisa de doutorado que deu origem ao Observatório. <!-- do Dept. de Medicina Social da Universidade Federal do Espírito Santo (UFES) e --></p>
 </section>
 </div>
 
